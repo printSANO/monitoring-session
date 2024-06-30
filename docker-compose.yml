@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build:
+      context: ./fastapi
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command: fastapi dev main.py --host "0.0.0.0"
+    develop:
+      watch:
+        - action: sync
+          path: ./fastapi
+          target: fastapi
+          ignore:
+            - venv/
+            - __pycache__/
+        - action: rebuild
+          path: ./fastapi/requrements.txt
+          target: fastapi
